@@ -218,22 +218,22 @@ export default function App() {
   const handleSelectTemplate = (templateName) => {
     setSelectedTemplate(templateName);
     setShowTemplateDetailsModal(true);
-    document.documentElement.style.zoom = "60%";
+    document.body.style.overflow = "hidden";
   };
 
   const handleCloseTemplateModal = () => {
     setShowTemplateDetailsModal(false);
-    document.documentElement.style.zoom = "100%";
+    document.body.style.overflow = "auto";
   };
 
   const handleOpenContactModal = () => {
     setShowContactModal(true);
-    document.documentElement.style.zoom = "90%";
+    document.body.style.overflow = "hidden";
   };
 
   const handleCloseContactModal = () => {
     setShowContactModal(false);
-    document.documentElement.style.zoom = "100%";
+    document.body.style.overflow = "auto";
   };
 
   const handleTemplateDetailsChange = (field, value) => {
@@ -373,7 +373,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full border-2 border-pink-200 my-auto"
+            className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 max-w-2xl w-full border-2 border-pink-200 my-auto mx-3 sm:mx-0"
           >
             {/* Close Button */}
             <motion.button
@@ -385,7 +385,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             </motion.button>
 
             {/* Header */}
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-6">Privacy Policy</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-4 sm:mb-6">Privacy Policy</h2>
 
             {/* Content */}
             <div className="space-y-6 text-gray-700 max-h-96 overflow-y-auto pr-4">
@@ -441,7 +441,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl p-10 max-w-md w-full border-2 border-pink-200"
+            className="bg-white rounded-3xl shadow-2xl p-6 sm:p-10 max-w-md w-full border-2 border-pink-200 mx-3 sm:mx-0"
           >
             {/* Close Button - Fixed to viewport */}
             <motion.button
@@ -572,10 +572,10 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="min-h-screen w-full py-10 px-4"
+            className="min-h-screen w-full py-6 sm:py-10 px-3 sm:px-4"
           >
             {/* Header */}
-            <div className="max-w-4xl mx-auto mb-8 flex justify-between items-start">
+            <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex justify-between items-start px-2 sm:px-4">
               <div>
                 <motion.p
                   initial={{ opacity: 0 }}
@@ -602,7 +602,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             </div>
 
             {/* Content */}
-            <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-10 border border-pink-100">
+            <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-pink-100">
 
             <div className="space-y-6">
               {/* Template Preview */}
@@ -790,11 +790,11 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       )}
       
       {/* 🎯 SCROLLING BANNER */}
-      <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2 overflow-hidden sticky top-0 z-50">
+      <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-white py-1 sm:py-2 overflow-hidden sticky top-0 z-50">
         <motion.div
           animate={{ x: [1000, -1000] }}
           transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-          className="whitespace-nowrap font-semibold text-lg"
+          className="whitespace-nowrap font-semibold text-xs sm:text-lg"
         >
           ✨ Get 10% OFF on your first order! ✨ Free customization & revisions! ✨ Delivery in 24 hours! ✨ Premium quality designs! ✨ 100% customer satisfaction! ✨ ALL TYPES OF INVITATIONS - Weddings, Birthdays, Baby Showers, Housewarmings & More! ✨ Contact us now to create your perfect digital invitation! ✨
         </motion.div>
@@ -802,24 +802,24 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       
       {/* 🔝 NAVIGATION BAR */}
       <nav className="fixed top-9 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-lg border-b border-pink-100">
-        <div className="max-w-7xl mx-auto px-6 md:px-16 py-2.5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 md:px-16 py-2.5 flex items-center justify-between">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             whileHover={{ scale: 1.10 }}
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-2 sm:gap-3 cursor-pointer group"
           >
             {/* Logo Image - Circular with professional styling logo-rounded bg-gradient-to-br from-pink-100 to-purple-100  shadow-lg ring-2 ring-pink-200 relative overflow-hidden group-hover:ring-pink-400 transition-all */}
-            <div className="w-14 h-14 flex items-center justify-center">
+            <div className="w-10 sm:w-14 h-10 sm:h-14 flex items-center justify-center flex-shrink-0">
               <img
                 src={sitelogo}
                 alt="Ecard Invitations Logo"
-                className="w-12 h-12 object-contain logo-rounded"
+                className="w-9 sm:w-12 h-9 sm:h-12 object-contain logo-rounded"
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-black text-transparent bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-base md:text-lg logo-txt leading-none">
+              <p className="font-black text-transparent bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-sm md:text-lg logo-txt leading-none">
                 Ecard Invitations Studio <span className="text-yellow-400">✨</span>
               </p>
             </div>
@@ -854,7 +854,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             onClick={handleOpenContactModal}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="md:hidden bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-md"
+            className="md:hidden bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 sm:px-4 py-2 rounded-full font-semibold text-xs sm:text-sm shadow-md"
           >
             Contact
           </motion.button>
@@ -865,7 +865,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       {/* �💎 HEADER */}
       <section
         id="home"
-        className="min-h-screen flex items-center px-6 md:px-16 relative overflow-hidden"
+        className="min-h-screen flex items-center px-4 sm:px-6 md:px-16 relative overflow-hidden"
         style={{
           backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
@@ -874,7 +874,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       >
         <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
 
-        <div className="relative z-10 grid md:grid-cols-2 gap-10 max-w-6xl mx-auto items-center">
+        <div className="relative z-10 grid md:grid-cols-2 gap-6 sm:gap-10 max-w-6xl mx-auto items-center pt-20 md:pt-0">
 
           {/* LEFT */}
           <motion.div
@@ -886,14 +886,14 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6"
+              className="mb-4 sm:mb-6"
             >
               {/* <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_4px_12px_rgba(236,72,153,0.4)]">
                 Ecard Invitation Studio <span className="text-yellow-400">✨</span>
               </h2> */}
 
            
-              <p className="mt-3 text-lg md:text-xl font-semibold text-gray-700 italic">
+              <p className="mt-2 sm:mt-3 text-base sm:text-lg md:text-xl font-semibold text-gray-700 italic">
                 We design emotions, not just invitations
               </p>
 
@@ -903,14 +903,14 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             </motion.div>
 
             {/* MAIN HEADING */}
-            <h1 className="text-5xl font-extrabold mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 sm:mb-4">
               Create Stunning <br />
               <span className="bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
                 Digital Invitations
               </span>
             </h1>
 
-            <p className="mb-4 text-gray-700">
+            <p className="mb-3 sm:mb-4 text-sm sm:text-base text-gray-700">
               Elegant, modern and customized invitations for every special moment.
             </p>
 
@@ -919,10 +919,10 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
               key={index}
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
-              className="mb-6 bg-white/80 p-4 rounded-xl shadow"
+              className="mb-4 sm:mb-6 bg-white/80 p-3 sm:p-4 rounded-xl shadow"
             >
-              <p className="text-yellow-500">★★★★★</p>
-              <p className="text-gray-600 italic text-sm">
+              <p className="text-yellow-500 text-sm">★★★★★</p>
+              <p className="text-gray-600 italic text-xs sm:text-sm">
                 “{testimonials[index].text}”
               </p>
               <p className="text-xs text-gray-500 mt-1">
@@ -931,33 +931,33 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             </motion.div>
 
             {/* 🎬 FEATURES */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-4 py-3 rounded-xl shadow flex gap-2">
-                <Zap className="text-pink-500" /> Fast Delivery
+            <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 sm:mb-6">
+              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-3 sm:px-4 py-2 sm:py-3 rounded-xl shadow flex gap-2 text-xs sm:text-base">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500 flex-shrink-0" /> <span className="hidden sm:inline">Fast Delivery</span><span className="sm:hidden">Fast</span>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-4 py-3 rounded-xl shadow flex gap-2">
-                <Palette className="text-purple-500" /> Custom Designs
+              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-3 sm:px-4 py-2 sm:py-3 rounded-xl shadow flex gap-2 text-xs sm:text-base">
+                <Palette className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 flex-shrink-0" /> <span className="hidden sm:inline">Custom Designs</span><span className="sm:hidden">Custom</span>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-4 py-3 rounded-xl shadow flex gap-2">
-                <MessageCircle className="text-green-500" /> Easy WhatsApp Order
+              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-3 sm:px-4 py-2 sm:py-3 rounded-xl shadow flex gap-2 text-xs sm:text-base">
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" /> <span className="hidden sm:inline">Easy WhatsApp Order</span><span className="sm:hidden">WhatsApp</span>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-4 py-3 rounded-xl shadow flex gap-2">
-                <Star className="text-yellow-500" /> Premium Quality
+              <motion.div whileHover={{ scale: 1.05 }} className="bg-white/80 px-3 sm:px-4 py-2 sm:py-3 rounded-xl shadow flex gap-2 text-xs sm:text-base">
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 flex-shrink-0" /> <span className="hidden sm:inline">Premium Quality</span><span className="sm:hidden">Premium</span>
               </motion.div>
             </div>
 
             {/* 🚀 BUTTONS */}
-            <div className="flex gap-4">
-              <a href="#templates">
-                <button className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-xl">
-                  <Gift className="inline w-5 h-5 mr-2 text-yellow-400" /> Explore
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+              <a href="#templates" className="flex-1 sm:flex-none">
+                <button className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-sm sm:text-base">
+                  <Gift className="inline w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2 text-yellow-400" /> Explore
                 </button>
               </a>
 
-              <a href="#order">
+              <a href="#order" className="flex-1 sm:flex-none">
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -969,7 +969,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                     ],
                   }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-xl"
+                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-sm sm:text-base"
                 >
                   ✨ Order Now
                 </motion.button>
@@ -987,9 +987,9 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                     ],
                   }}
                   transition={{ repeat: Infinity, duration: 2 }}
-                  className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2"
+                  className="flex-1 sm:flex-none bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
-                  <Phone className="w-5 h-5" /> Contact Us
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" /> Contact Us
                 </motion.button>
             </div>
           </motion.div>
@@ -998,7 +998,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           <motion.img
             src={headerImg}
             alt="Header showcase image"
-            className="rounded-2xl shadow-xl"
+            className="rounded-2xl shadow-xl hidden md:block"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
           />
@@ -1007,22 +1007,22 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       </section>
 
       {/* 🎨 TEMPLATES */}
-      <section id="templates" className="py-20 text-center bg-gradient-to-b from-white to-pink-50">
+      <section id="templates" className="py-12 sm:py-20 text-center bg-gradient-to-b from-white to-pink-50">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-extrabold mb-8 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 sm:mb-8 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
         >
           Choose Your Template
         </motion.h2>
 
         {/* Multi-label Filter UI */}
-        <div className="flex flex-wrap gap-3 justify-center mb-10">
+        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-8 sm:mb-10 px-2 sm:px-6">
           <button
             key="all"
             onClick={() => setSelectedLabels([])}
-            className={`px-4 py-2 rounded-full border-2 font-semibold transition-all duration-200 text-sm capitalize ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 font-semibold transition-all duration-200 text-xs sm:text-sm capitalize ${
               selectedLabels.length === 0
                 ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-500"
                 : "bg-white text-pink-500 border-pink-200 hover:bg-pink-50"
@@ -1044,7 +1044,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                     : [...prev, label]
                 );
               }}
-              className={`px-4 py-2 rounded-full border-2 font-semibold transition-all duration-200 text-sm capitalize ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border-2 font-semibold transition-all duration-200 text-xs sm:text-sm capitalize ${
                 selectedLabels.includes(label)
                   ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white border-pink-500"
                   : "bg-white text-pink-500 border-pink-200 hover:bg-pink-50"
@@ -1055,7 +1055,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           ))}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto px-3 sm:px-6">
           {Object.keys(templates)
             .filter((key) => {
               if (selectedLabels.length === 0) return true;
@@ -1070,7 +1070,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 whileHover={{ scale: 1.05, y: -10 }}
-                className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
+                className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
               >
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 to-purple-400"></div>
                 <div className="relative">
@@ -1158,12 +1158,12 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       </section>
 
       {/* 📝 ORDER FORM */}
-      <section id="order" className="py-20 text-center bg-gradient-to-b from-purple-50 via-pink-50 to-white">
+      <section id="order" className="py-12 sm:py-20 text-center bg-gradient-to-b from-purple-50 via-pink-50 to-white">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-extrabold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent"
         >
           Place Your Order
         </motion.h2>
@@ -1173,7 +1173,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-5xl mx-auto bg-white p-10 rounded-3xl shadow-2xl border border-pink-100 grid md:grid-cols-2 gap-10"
+          className="max-w-5xl mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-2xl border border-pink-100 grid md:grid-cols-2 gap-6 sm:gap-10"
         >
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
@@ -1446,37 +1446,37 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
       </section>
 
       {/* 🌟 TESTIMONIALS */}
-      <section id="testimonials" className="py-20 text-center bg-gradient-to-b from-pink-50 to-purple-50">
+      <section id="testimonials" className="py-12 sm:py-20 text-center bg-gradient-to-b from-pink-50 to-purple-50">
         <motion.h2
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-4xl font-extrabold mb-12 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
+          className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-8 sm:mb-12 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent"
         >
           Our Testimonials
         </motion.h2>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto px-3 sm:px-6">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="bg-white px-4 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-pink-100"
+              className="bg-white px-3 sm:px-4 py-3 sm:py-4 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-pink-100"
             >
               <div className="text-yellow-400 text-lg mb-1">★★★★★</div>
-              <p className="text-gray-600 italic text-xs mb-1 leading-relaxed">"{testimonial.text}"</p>
-              <p className="text-pink-600 font-semibold text-xs">— {testimonial.name}</p>
+              <p className="text-gray-600 italic text-xs sm:text-sm mb-1 leading-relaxed">"{testimonial.text}"</p>
+              <p className="text-pink-600 font-semibold text-xs sm:text-sm">— {testimonial.name}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* 🏢 PROFESSIONAL FOOTER */}
-      <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-16">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
+      <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-12 sm:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
             {/* BRAND */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1550,23 +1550,23 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           </div>
 
           {/* DIVIDER */}
-          <div className="border-t border-gray-700 pt-8 mb-8"></div>
+          <div className="border-t border-gray-700 pt-6 sm:pt-8 mb-6 sm:mb-8"></div>
 
           {/* BOTTOM */}
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">&copy; 2026 Invitation App. All rights reserved. | Designed with ❤️ for your special moments.</p>
-            <div className="flex gap-6 mt-6 md:mt-0 items-center">
-              <a href="https://www.instagram.com/ecard_invitation_studio?igsh=MTE5bDcxeXFmem95cw%3D%3D" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition flex items-center gap-2">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6">
+            <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">&copy; 2026 Invitation App. All rights reserved. | Designed with ❤️ for your special moments.</p>
+            <div className="flex gap-4 sm:gap-6 items-center">
+              <a href="https://www.instagram.com/ecard_invitation_studio?igsh=MTE5bDcxeXFmem95cw%3D%3D" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-400 transition flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor" />
                   <circle cx="12" cy="12" r="3.5" fill="white" />
                   <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
                 </svg>
-                <span>Instagram</span>
+                <span className="hidden sm:inline">Instagram</span>
               </a>
-              <a href="https://wa.me/917972770968" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition flex items-center gap-2">
-                <img src={whatsappImg} alt="WhatsApp" className="w-5 h-5" />
-                <span>WhatsApp</span>
+              <a href="https://wa.me/917972770968" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition flex items-center gap-1 sm:gap-2 text-xs sm:text-sm">
+                <img src={whatsappImg} alt="WhatsApp" className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">WhatsApp</span>
               </a>
             </div>
           </div>
