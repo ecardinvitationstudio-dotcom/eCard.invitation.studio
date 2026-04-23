@@ -6,9 +6,6 @@ import bgImage from "./assets/bg.jpg";
 import headerImg from "./assets/header.png";
 import sitelogo from "./assets/sitelogo.jpeg";
 import weddingImg from "./assets/wedding.png";
-import weddingVid from "./assets/wedding.mp4";
-import receptionVid from "./assets/reception.mp4";
-import babyVid from "./assets/baby.mp4";
 import babyImg from "./assets/baby.png";
 import mehendiImg from "./assets/mehendi1.png";
 import haldiImg from "./assets/haldi.jpg";
@@ -24,7 +21,7 @@ const templates = {
     title: "Wedding Video Invitation",
     price: "₹1499",
     image: weddingImg,
-    video: weddingVid,
+    video: "/wedding.mp4",
     isVideo: true,
     labels: ["wedding", "photo", "video"]
   },
@@ -45,7 +42,7 @@ const templates = {
     title: "Baby Shower Video Invitation",
     price: "₹999",
     image: babyImg,
-    video: babyVid,
+    video: "/baby.mp4",
     isVideo: true,
     labels: ["baby", "photo", "video"]
   },
@@ -82,7 +79,7 @@ const templates = {
   Reception: {
     title: "Reception Invitation",
     price: "₹799",
-    video: receptionVid,
+    video: "/reception.mp4",
     isVideo: true,
     labels: ["reception", "video"]
   },
