@@ -1095,6 +1095,14 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                         muted
                         loop
                         playsInline
+                        webkit-playsinline="true"
+                        crossOrigin="anonymous"
+                        onLoadedMetadata={(e) => {
+                          const video = e.currentTarget;
+                          video.play().catch(() => {
+                            // Autoplay failed, poster image will show instead
+                          });
+                        }}
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                       />
