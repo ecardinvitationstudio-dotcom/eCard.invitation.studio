@@ -139,9 +139,14 @@ export default function App() {
   const [selectedLabels, setSelectedLabels] = useState([]); // multi-label filter
   // const [previewMode, setPreviewMode] = useState("image"); // unused
   const [templateDetails, setTemplateDetails] = useState({
+    detailType: "single", // "single" or "couple"
     guestName: "",
     guestTitle: "",
+    brideName: "",
+    groomName: "",
     guestImage: null,
+    brideImage: null,
+    groomImage: null,
     customColor: "#FF69B4",
     additionalNotes: "",
   });
@@ -394,49 +399,68 @@ export default function App() {
     return Object.keys(errors).length === 0;
   };
 
-  // Handle website order submission - stores data in email
-  const handleWebsiteOrderSubmit = () => {
+  // Handle WhatsApp order submission - sends all details via WhatsApp
+  const handleWhatsAppOrderSubmit = () => {
     if (!validateForm()) return;
 
-    // Create a hidden form and submit it directly to FormSubmit.co
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formsubmit.co/ecard.invitation.studio@gmail.com';
-    form.style.display = 'none';
+    // Format the message with all order details
+    const templatePrice = selectedTemplate === "Custom" ? "Custom Quote" : templates[selectedTemplate]?.price || "Price on Request";
+    const templateName = selectedTemplate === "Custom" ? "🎨 Custom Template" : templates[selectedTemplate]?.title || selectedTemplate;
 
-    // Add fields
-    const fields = {
-      '_captcha': 'false',
-      '_subject': `New Order - ${selectedTemplate}`,
-      'email': email,
-      'Template': selectedTemplate === "Custom" ? `Custom - ${customIdea}` : selectedTemplate,
-      'Name': name,
-      'Customer Email': email,
-      'Phone': phone,
-      'Event Type': event,
-      'Event Date': date,
-      'Venue': venue,
-      'Custom Idea': selectedTemplate === "Custom" ? customIdea : "",
-      'Additional Request': additionalRequest,
-      'Submitted At': new Date().toLocaleString()
-    };
+    const message = `📋 *NEW ORDER REQUEST*
 
-    for (const [key, value] of Object.entries(fields)) {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = value;
-      form.appendChild(input);
-    }
+*BILLING DETAILS:*
+👤 Name: ${name}
+📧 Email: ${email}
+📱 Phone: ${phone}
+
+*TEMPLATE VIEW DETAILS:*
+${templateDetails.detailType === "couple" ? 
+  `💒 *BRIDE DETAILS:*
+👰 Name: ${templateDetails.brideName || "Not provided"}
+💍 Title: ${templateDetails.brideTitle || "Not provided"}
+🖼️ Image: ${templateDetails.brideImage ? "✅ Image Attached" : "❌ No image"}
+
+💒 *GROOM DETAILS:*
+🤵 Name: ${templateDetails.groomName || "Not provided"}
+🎩 Title: ${templateDetails.groomTitle || "Not provided"}
+🖼️ Image: ${templateDetails.groomImage ? "✅ Image Attached" : "❌ No image"}`
+  : 
+  `👥 Guest Name: ${templateDetails.guestName || "Not provided"}
+🎭 Guest Title: ${templateDetails.guestTitle || "Not provided"}
+🖼️ Guest Image: ${templateDetails.guestImage ? "✅ Image Attached" : "❌ No image"}`
+}
+🎨 Custom Color: ${templateDetails.customColor || "#FF69B4"}
+📝 Template Notes: ${templateDetails.additionalNotes || "None"}
+
+*EVENT DETAILS:*
+🎉 Event Type: ${event}
+📅 Event Date: ${date}
+📍 Venue: ${venue}
+
+*TEMPLATE SELECTION:*
+✨ Template: ${templateName}
+💰 Price: ${templatePrice}
+${selectedTemplate === "Custom" ? `\n*CUSTOM TEMPLATE DESCRIPTION:*\n${customIdea}` : ""}
+${additionalRequest ? `\n*ADDITIONAL REQUESTS:*\n${additionalRequest}` : ""}
+
+*Submitted At:* ${new Date().toLocaleString()}
+
+Please confirm the order and provide further details.`;
+
+    // Encode the message for URL
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappPhone = "917972770968"; // Business WhatsApp number
+    const whatsappURL = `https://wa.me/${whatsappPhone}?text=${encodedMessage}`;
 
     // Show success message immediately
     setOrderSubmitted(true);
-    setOrderConfirmationMessage(`✅ Order Submitted Successfully!\n\nWe received your order for ${selectedTemplate}.\nOur team will contact you at ${email} within minutes.\n\nThank you for your order!`);
+    setOrderConfirmationMessage(`✅ Order Sent to WhatsApp!\n\nRedirecting you to WhatsApp...\n\nOur team will respond to your order for ${templateName} shortly.\n\nThank you!`);
 
-    // Append to body and submit
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
+    // Open WhatsApp after a short delay
+    setTimeout(() => {
+      window.open(whatsappURL, "_blank");
+    }, 500);
 
     // Reset form after 3 seconds
     setTimeout(() => {
@@ -556,7 +580,7 @@ export default function App() {
         </motion.div>
       )}
 
-      {/* ORDER METHOD MODAL */}
+      {/* ORDER METHOD MODAL - WhatsApp Only */}
       {showOrderMethodModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -570,82 +594,51 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 50 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-sm w-full border-2 border-pink-200 mx-3 sm:mx-0"
+            className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-sm w-full border-2 border-green-300 mx-3 sm:mx-0"
           >
             <motion.button
               onClick={() => setShowOrderMethodModal(false)}
               whileHover={{ scale: 1.15, rotate: 90 }}
               whileTap={{ scale: 0.9 }}
-              className="absolute top-6 right-6 w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-2xl font-bold rounded-full hover:shadow-2xl transition-all flex items-center justify-center border-2 border-white shadow-lg"
+              className="absolute top-6 right-6 w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-2xl font-bold rounded-full hover:shadow-2xl transition-all flex items-center justify-center border-2 border-white shadow-lg"
             >
               ✕
             </motion.button>
 
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">Place Your Order</h2>
-              <p className="text-gray-600 text-sm">Choose your preferred contact method</p>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-green-500 to-emerald-500 bg-clip-text text-transparent mb-2">📱 Order via WhatsApp</h2>
+              <p className="text-gray-600 text-sm">Send your complete order details directly to our team</p>
             </div>
 
-            <div className="space-y-4">
-              <motion.button
-                onClick={() => {
-                  window.open(
-                    `https://www.instagram.com/ecard_invitation_studio`,
-                    "_blank"
-                  );
-                  setShowOrderMethodModal(false);
-                }}
-                whileHover={{ scale: 1.05, x: 10 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full p-4 bg-gradient-to-r from-pink-50 via-purple-50 to-red-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-pink-300 group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 via-purple-500 to-red-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#instagramGrad)" />
-                      <defs>
-                        <linearGradient id="instagramGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#feda75" />
-                          <stop offset="5%" stopColor="#fa7e1e" />
-                          <stop offset="45%" stopColor="#d92e7f" />
-                          <stop offset="60%" stopColor="#9b36b7" />
-                          <stop offset="90%" stopColor="#515bd4" />
-                        </linearGradient>
-                      </defs>
-                      <circle cx="12" cy="12" r="3.5" fill="white" />
-                      <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
-                    </svg>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-bold text-gray-800 text-lg">Instagram DM</p>
-                    <p className="text-xs text-gray-600">Quick & Easy</p>
-                  </div>
+            <motion.button
+              onClick={() => {
+                handleWhatsAppOrderSubmit();
+                setShowOrderMethodModal(false);
+              }}
+              whileHover={{ scale: 1.08, x: 10 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl hover:shadow-xl transition-all cursor-pointer border-2 border-green-300 group"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <img src={whatsappImg} alt="WhatsApp" className="w-8 h-8" />
                 </div>
-              </motion.button>
-
-              <motion.button
-                onClick={() => {
-                  handleWebsiteOrderSubmit();
-                  setShowOrderMethodModal(false);
-                }}
-                whileHover={{ scale: 1.05, x: 10 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-green-300 group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl">🌐</span>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-bold text-gray-800 text-lg">Submit from Website</p>
-                    <p className="text-xs text-gray-600">Direct Submission</p>
-                  </div>
+                <div className="text-left">
+                  <p className="font-bold text-gray-800 text-lg">Send Order on WhatsApp</p>
+                  <p className="text-sm text-gray-600">Instant & Secure</p>
                 </div>
-              </motion.button>
-            </div>
+              </div>
+            </motion.button>
 
-            <div className="mt-6 p-3 bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl border-2 border-pink-200">
-              <p className="text-xs text-gray-700 text-center font-semibold">✨ Our team responds within minutes!</p>
+            <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border-2 border-green-200">
+              <p className="text-sm text-gray-700 text-center font-semibold mb-2">✅ Your order will include:</p>
+              <ul className="text-xs text-gray-600 space-y-1 text-left">
+                <li>✓ All billing details</li>
+                <li>✓ Event information</li>
+                <li>✓ Template selection & price</li>
+                <li>✓ Custom requests</li>
+              </ul>
+              <p className="text-xs text-gray-700 text-center font-semibold mt-3">⚡ Our team responds within minutes!</p>
             </div>
           </motion.div>
         </motion.div>
@@ -907,48 +900,188 @@ export default function App() {
 
               {/* Form Fields */}
               <div className="space-y-4">
-                <h3 className="font-bold text-lg">Your Details</h3>
+                <h3 className="font-bold text-lg mb-4">Your Details</h3>
                 
-                <input
-                  type="text"
-                  placeholder="Guest Name / Main Person's Name"
-                  value={templateDetails.guestName}
-                  onChange={(e) => handleTemplateDetailsChange("guestName", e.target.value)}
-                  className="w-full p-3 border-2 border-pink-200 rounded-xl focus:border-pink-400 focus:outline-none"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Title/Role (e.g., Bride, Groom, Birthday Girl)"
-                  value={templateDetails.guestTitle}
-                  onChange={(e) => handleTemplateDetailsChange("guestTitle", e.target.value)}
-                  className="w-full p-3 border-2 border-pink-200 rounded-xl focus:border-pink-400 focus:outline-none"
-                />
-
-                <div>
-                  <label className="block font-semibold mb-2">Upload Photo (Optional)</label>
-                  <label className="w-full p-4 border-2 border-dashed border-pink-300 rounded-xl cursor-pointer hover:bg-pink-50 transition-colors">
+                {/* Detail Type Toggle */}
+                <div className="flex gap-4 mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all" style={{borderColor: templateDetails.detailType === "single" ? "#ec4899" : "#fce7f3"}}>
                     <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
+                      type="radio"
+                      name="detailType"
+                      value="single"
+                      checked={templateDetails.detailType === "single"}
+                      onChange={(e) => handleTemplateDetailsChange("detailType", e.target.value)}
+                      className="cursor-pointer"
                     />
-                    <div className="text-center">
-                      <span className="text-2xl">📷</span>
-                      <p className="text-pink-600 font-semibold">Click to upload image</p>
-                      <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
-                    </div>
+                    <span className="font-semibold">👤 Single Person</span>
                   </label>
-                  {templateDetails.guestImage && (
-                    <div className="mt-3">
-                      <img src={templateDetails.guestImage} alt="Uploaded" className="h-32 w-32 object-cover rounded-lg" />
-                    </div>
-                  )}
+                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all" style={{borderColor: templateDetails.detailType === "couple" ? "#ec4899" : "#fce7f3"}}>
+                    <input
+                      type="radio"
+                      name="detailType"
+                      value="couple"
+                      checked={templateDetails.detailType === "couple"}
+                      onChange={(e) => handleTemplateDetailsChange("detailType", e.target.value)}
+                      className="cursor-pointer"
+                    />
+                    <span className="font-semibold">💒 Bride & Groom</span>
+                  </label>
                 </div>
 
+                {/* Single Person Fields */}
+                {templateDetails.detailType === "single" && (
+                  <div className="space-y-4 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+                    <input
+                      type="text"
+                      placeholder="Person's Name / Main Guest Name"
+                      value={templateDetails.guestName}
+                      onChange={(e) => handleTemplateDetailsChange("guestName", e.target.value)}
+                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Title/Role (e.g., Birthday Girl, Guest of Honor)"
+                      value={templateDetails.guestTitle}
+                      onChange={(e) => handleTemplateDetailsChange("guestTitle", e.target.value)}
+                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                    />
+                    <div>
+                      <label className="block font-semibold mb-2">Upload Photo (Optional)</label>
+                      <label className="w-full p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setTemplateDetails(prev => ({
+                                  ...prev,
+                                  guestImage: reader.result
+                                }));
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                          className="hidden"
+                        />
+                        <div className="text-center">
+                          <span className="text-2xl">📷</span>
+                          <p className="text-blue-600 font-semibold">Click to upload image</p>
+                          <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                        </div>
+                      </label>
+                      {templateDetails.guestImage && (
+                        <div className="mt-3">
+                          <img src={templateDetails.guestImage} alt="Uploaded" className="h-32 w-32 object-cover rounded-lg" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Bride & Groom Fields */}
+                {templateDetails.detailType === "couple" && (
+                  <div className="space-y-6">
+                    {/* Bride Section */}
+                    <div className="p-4 bg-red-50 rounded-xl border-2 border-red-200">
+                      <h4 className="font-bold text-lg text-red-600 mb-4">👰 Bride Details</h4>
+                      <div className="space-y-4">
+                        <input
+                          type="text"
+                          placeholder="Bride's Name"
+                          value={templateDetails.brideName}
+                          onChange={(e) => handleTemplateDetailsChange("brideName", e.target.value)}
+                          className="w-full p-3 border-2 border-red-200 rounded-xl focus:border-red-400 focus:outline-none"
+                        />
+                        <div>
+                          <label className="block font-semibold mb-2">Bride's Photo (Optional)</label>
+                          <label className="w-full p-4 border-2 border-dashed border-red-300 rounded-xl cursor-pointer hover:bg-red-100 transition-colors">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    setTemplateDetails(prev => ({
+                                      ...prev,
+                                      brideImage: reader.result
+                                    }));
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="hidden"
+                            />
+                            <div className="text-center">
+                              <span className="text-2xl">📷</span>
+                              <p className="text-red-600 font-semibold">Click to upload bride's image</p>
+                              <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                            </div>
+                          </label>
+                          {templateDetails.brideImage && (
+                            <div className="mt-3">
+                              <img src={templateDetails.brideImage} alt="Bride" className="h-32 w-32 object-cover rounded-lg" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Groom Section */}
+                    <div className="p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+                      <h4 className="font-bold text-lg text-blue-600 mb-4">🤵 Groom Details</h4>
+                      <div className="space-y-4">
+                        <input
+                          type="text"
+                          placeholder="Groom's Name"
+                          value={templateDetails.groomName}
+                          onChange={(e) => handleTemplateDetailsChange("groomName", e.target.value)}
+                          className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                        />
+                        <div>
+                          <label className="block font-semibold mb-2">Groom's Photo (Optional)</label>
+                          <label className="w-full p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => {
+                                    setTemplateDetails(prev => ({
+                                      ...prev,
+                                      groomImage: reader.result
+                                    }));
+                                  };
+                                  reader.readAsDataURL(file);
+                                }
+                              }}
+                              className="hidden"
+                            />
+                            <div className="text-center">
+                              <span className="text-2xl">📷</span>
+                              <p className="text-blue-600 font-semibold">Click to upload groom's image</p>
+                              <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                            </div>
+                          </label>
+                          {templateDetails.groomImage && (
+                            <div className="mt-3">
+                              <img src={templateDetails.groomImage} alt="Groom" className="h-32 w-32 object-cover rounded-lg" />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div>
-                  <label className="block font-semibold mb-3">Choose Color Theme</label>
+                  {/* <label className="block font-semibold mb-3">Choose Color Theme</label>
                   <div className="flex gap-4 items-center mb-4">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <span className="text-sm font-semibold">Custom Color:</span>
@@ -960,10 +1093,10 @@ export default function App() {
                       />
                     </label>
                     <span className="text-xs text-gray-600">{templateDetails.customColor}</span>
-                  </div>
+                  </div> */}
                   
-                  <label className="block font-semibold mb-2 text-sm">Premium color presets:</label>
-                  <div className="flex gap-2">
+                  {/* <label className="block font-semibold mb-2 text-sm">Premium color presets:</label> */}
+                  {/* <div className="flex gap-2">
                     {["#FF69B4", "#A020F0", "#FF1493", "#4169E1", "#20B2AA", "#DC143C", "#FFD700", "#9932CC"].map(color => (
                       <motion.button
                         key={color}
@@ -976,8 +1109,8 @@ export default function App() {
                         style={{ backgroundColor: color }}
                         title={color}
                       />
-                    ))}
-                  </div>
+                    ))} */}
+                  {/* </div> */}
                 </div>
 
                 <textarea
@@ -1714,16 +1847,12 @@ export default function App() {
                     : "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
                 }`}
               >
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor" opacity="0.2" />
-                  <circle cx="12" cy="12" r="3.5" fill="currentColor" />
-                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
-                </svg>
-                {isFormValid ? "Place Order on Instagram / Website" : "Order Now"}
+                <img src={whatsappImg} alt="WhatsApp" className="w-6 h-6" />
+                {isFormValid ? "Place Order on WhatsApp" : "Order Now"}
               </motion.button>
             </motion.div>
 
-            <p className="text-xs text-gray-500 text-center">🔒 Send order via Instagram DM or Website - our team will assist with customizations</p>
+            <p className="text-xs text-gray-500 text-center">✅ Send order directly via WhatsApp - our team will respond within minutes!</p>
           </div>
         </motion.div>
         )}
