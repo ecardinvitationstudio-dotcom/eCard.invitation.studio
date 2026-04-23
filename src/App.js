@@ -206,47 +206,47 @@ export default function App() {
 
   // Protection against developer tools and unauthorized access
   useEffect(() => {
-    // // Disable right-click globally
-    // const handleContextMenu = (e) => e.preventDefault();
-    // document.addEventListener('contextmenu', handleContextMenu);
+    // Disable right-click globally
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
 
-    // // Disable copy
-    // const handleCopy = (e) => e.preventDefault();
-    // document.addEventListener('copy', handleCopy);
+    // Disable copy
+    const handleCopy = (e) => e.preventDefault();
+    document.addEventListener('copy', handleCopy);
 
-    // // Disable drag for all media
-    // const handleDragStart = (e) => e.preventDefault();
-    // document.addEventListener('dragstart', handleDragStart);
+    // Disable drag for all media
+    const handleDragStart = (e) => e.preventDefault();
+    document.addEventListener('dragstart', handleDragStart);
 
-    // // Disable developer tools shortcuts
-    // const handleKeyDown = (e) => {
-    //   // Disable F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J
-    //   if (
-    //     e.key === 'F12' ||
-    //     (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-    //     (e.ctrlKey && e.shiftKey && e.key === 'C') ||
-    //     (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-    //     (e.ctrlKey && e.key === 'U') // Disable View Page Source
-    //   ) {
-    //     e.preventDefault();
-    //   }
-    // };
-    // document.addEventListener('keydown', handleKeyDown);
+    // Disable developer tools shortcuts
+    const handleKeyDown = (e) => {
+      // Disable F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+        (e.ctrlKey && e.key === 'U') // Disable View Page Source
+      ) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
 
-    // // Disable inspect element on media elements
-    // const preventElementInspection = (e) => {
-    //   if (e.target.tagName === 'VIDEO' || e.target.tagName === 'IMG') {
-    //     e.preventDefault();
-    //   }
-    // };
-    // document.addEventListener('contextmenu', preventElementInspection);
+    // Disable inspect element on media elements
+    const preventElementInspection = (e) => {
+      if (e.target.tagName === 'VIDEO' || e.target.tagName === 'IMG') {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('contextmenu', preventElementInspection);
 
     return () => {
-      // document.removeEventListener('contextmenu', handleContextMenu);
-      // document.removeEventListener('copy', handleCopy);
-      // document.removeEventListener('dragstart', handleDragStart);
-      // document.removeEventListener('keydown', handleKeyDown);
-      // document.removeEventListener('contextmenu', preventElementInspection);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('contextmenu', preventElementInspection);
     };
   }, []);
 
@@ -278,19 +278,19 @@ export default function App() {
     }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setTemplateDetails(prev => ({
-          ...prev,
-          guestImage: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setTemplateDetails(prev => ({
+  //         ...prev,
+  //         guestImage: reader.result
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleProceedToOrder = () => {
     handleCloseTemplateModal();
