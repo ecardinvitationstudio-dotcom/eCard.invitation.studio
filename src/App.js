@@ -155,6 +155,8 @@ export default function App() {
   const [customIdea, setCustomIdea] = useState("");
   const [additionalRequest, setAdditionalRequest] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
+  const [orderConfirmationMessage, setOrderConfirmationMessage] = useState("");
 
   // Set default date to current date
   useEffect(() => {
@@ -392,17 +394,68 @@ export default function App() {
     return Object.keys(errors).length === 0;
   };
 
+  // Handle website order submission - stores data in email
+  const handleWebsiteOrderSubmit = () => {
+    if (!validateForm()) return;
+
+    // Create a hidden form and submit it directly to FormSubmit.co
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formsubmit.co/ecard.invitation.studio@gmail.com';
+    form.style.display = 'none';
+
+    // Add fields
+    const fields = {
+      '_captcha': 'false',
+      '_subject': `New Order - ${selectedTemplate}`,
+      'email': email,
+      'Template': selectedTemplate === "Custom" ? `Custom - ${customIdea}` : selectedTemplate,
+      'Name': name,
+      'Customer Email': email,
+      'Phone': phone,
+      'Event Type': event,
+      'Event Date': date,
+      'Venue': venue,
+      'Custom Idea': selectedTemplate === "Custom" ? customIdea : "",
+      'Additional Request': additionalRequest,
+      'Submitted At': new Date().toLocaleString()
+    };
+
+    for (const [key, value] of Object.entries(fields)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    // Show success message immediately
+    setOrderSubmitted(true);
+    setOrderConfirmationMessage(`✅ Order Submitted Successfully!\n\nWe received your order for ${selectedTemplate}.\nOur team will contact you at ${email} within minutes.\n\nThank you for your order!`);
+
+    // Append to body and submit
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setOrderSubmitted(false);
+      setName("");
+      setEmail("");
+      setPhone("");
+      setEvent("");
+      setDate(new Date().toISOString().split('T')[0]);
+      setVenue("");
+      setSelectedTemplate("");
+      setCustomIdea("");
+      setAdditionalRequest("");
+      setValidationErrors({});
+    }, 3000);
+  };
+
   // Compute form validity for render - doesn't update state
   const isFormValid = checkFormValid();
-
-  const whatsappMessage = `Hi, I want to order an invitation:
-Template: ${selectedTemplate === "Custom" ? `Custom - ${customIdea}` : selectedTemplate}
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Event: ${event}
-Date: ${date}
-Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}` : ""}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100">
@@ -572,23 +625,20 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
 
               <motion.button
                 onClick={() => {
-                  window.open(
-                    `mailto:ecard.invitation.studio@gmail.com?subject=Order Request - ${selectedTemplate}&body=${encodeURIComponent(whatsappMessage)}`,
-                    "_blank"
-                  );
+                  handleWebsiteOrderSubmit();
                   setShowOrderMethodModal(false);
                 }}
                 whileHover={{ scale: 1.05, x: 10 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-full p-4 bg-gradient-to-r from-blue-50 to-red-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-red-300 group"
+                className="w-full p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-green-300 group"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-xl">✉️</span>
+                  <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl">🌐</span>
                   </div>
                   <div className="text-left">
-                    <p className="font-bold text-gray-800 text-lg">Gmail</p>
-                    <p className="text-xs text-gray-600">Detailed Communication</p>
+                    <p className="font-bold text-gray-800 text-lg">Submit from Website</p>
+                    <p className="text-xs text-gray-600">Direct Submission</p>
                   </div>
                 </div>
               </motion.button>
@@ -1358,6 +1408,26 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
         </motion.h2>
         <p className="text-gray-600 mb-12 text-lg">Fill in your details below and we'll create your perfect invitation</p>
 
+        {orderSubmitted && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mx-auto mb-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-3xl border-2 border-green-300 shadow-xl"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-5xl mb-4 text-center"
+            >
+              ✅
+            </motion.div>
+            <p className="text-center text-gray-800 font-semibold text-lg whitespace-pre-line">{orderConfirmationMessage}</p>
+          </motion.div>
+        )}
+
+        {!orderSubmitted && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1649,13 +1719,14 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                   <circle cx="12" cy="12" r="3.5" fill="currentColor" />
                   <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
                 </svg>
-                {isFormValid ? "Place Order on Instagram / Gmail" : "Order Now"}
+                {isFormValid ? "Place Order on Instagram / Website" : "Order Now"}
               </motion.button>
             </motion.div>
 
-            <p className="text-xs text-gray-500 text-center">� Send order via Instagram DM or Gmail - our team will assist with customizations</p>
+            <p className="text-xs text-gray-500 text-center">🔒 Send order via Instagram DM or Website - our team will assist with customizations</p>
           </div>
         </motion.div>
+        )}
       </section>
 
       {/* 🌟 TESTIMONIALS */}
