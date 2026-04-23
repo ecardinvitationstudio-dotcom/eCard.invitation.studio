@@ -169,6 +169,33 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Force video autoplay for mobile and web
+  useEffect(() => {
+    const playAllVideos = () => {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        if (video.paused) {
+          video.play().catch(err => {
+            // Silent catch - some browsers may block autoplay
+            console.log('Video autoplay not allowed:', err);
+          });
+        }
+      });
+    };
+
+    // Play videos immediately
+    playAllVideos();
+
+    // Play videos when they're loaded
+    const observer = new MutationObserver(() => {
+      playAllVideos();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   // Protection against developer tools and unauthorized access
   useEffect(() => {
     // // Disable right-click globally
@@ -1087,6 +1114,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                   {templates[key].isVideo ? (
                     <div className="relative group select-none overflow-hidden rounded-xl mb-4">
                       <video
+                        key={`video-${key}`}
                         src={templates[key].video}
                         poster={templates[key].image}
                         className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
@@ -1096,15 +1124,10 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                         loop
                         playsInline
                         webkit-playsinline="true"
-                        crossOrigin="anonymous"
-                        onLoadedMetadata={(e) => {
-                          const video = e.currentTarget;
-                          video.play().catch(() => {
-                            // Autoplay failed, poster image will show instead
-                          });
-                        }}
+                        defaultMuted
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
+                        onCanPlay={(e) => e.target.play()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
                         <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
