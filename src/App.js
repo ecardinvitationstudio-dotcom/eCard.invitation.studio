@@ -7,7 +7,6 @@ import headerImg from "./assets/header.png";
 import sitelogo from "./assets/sitelogo.jpeg";
 import weddingImg from "./assets/wedding.png";
 import weddingVid from "./assets/wedding.mp4";
-import birthdayVid from "./assets/birthday.mp4";
 import receptionVid from "./assets/reception.mp4";
 import babyVid from "./assets/baby.mp4";
 import babyImg from "./assets/baby.png";
@@ -38,7 +37,7 @@ const templates = {
   Birthday: {
     title: "Birthday Invitation",
     price: "₹1199",
-    video: birthdayVid,
+    video: "/birthday.mp4",
     isVideo: true,
     labels: ["birthday", "video"]
   },
