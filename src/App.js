@@ -612,11 +612,11 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                   <div className="relative select-none">
                     <video
                       src={templates[selectedTemplate]?.video}
-                      poster={['Wedding', 'BabyShower', 'Birthday'].includes(selectedTemplate) ? undefined : templates[selectedTemplate]?.image}
+                      poster={templates[selectedTemplate]?.image}
                       controls
                       controlsList="nodownload nofullscreen"
                       className="w-full h-auto object-contain rounded-xl select-none"
-                      preload="metadata"
+                      preload="auto"
                       onContextMenu={(e) => e.preventDefault()}
                       onDragStart={(e) => e.preventDefault()}
                     />
@@ -653,7 +653,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                           controls
                           controlsList="nodownload nofullscreen"
                           className="w-full h-auto object-contain rounded-xl border-2 border-blue-200 select-none"
-                          preload="metadata"
+                          preload="auto"
                           onContextMenu={(e) => e.preventDefault()}
                           onDragStart={(e) => e.preventDefault()}
                         />
@@ -1085,18 +1085,19 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 to-purple-400"></div>
                 <div className="relative">
                   {templates[key].isVideo ? (
-                    <div className="relative group select-none">
+                    <div className="relative group select-none overflow-hidden rounded-xl mb-4">
                       <video
                         src={templates[key].video}
-                        poster={['Wedding', 'BabyShower', 'Birthday'].includes(key) ? undefined : templates[key].image}
-                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none"
-                        preload="metadata"
+                        poster={templates[key].image}
+                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
+                        preload="auto"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-xl group-hover:bg-black/20 transition-all pointer-events-none">
-                        <div className="text-white text-4xl">▶</div>
-                      </div>
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
                         <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
