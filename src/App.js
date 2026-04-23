@@ -135,6 +135,7 @@ export default function App() {
   const [showTemplateDetailsModal, setShowTemplateDetailsModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showOrderMethodModal, setShowOrderMethodModal] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState([]); // multi-label filter
   // const [previewMode, setPreviewMode] = useState("image"); // unused
   const [templateDetails, setTemplateDetails] = useState({
@@ -502,7 +503,105 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
         </motion.div>
       )}
 
-      {/* �📞 CONTACT MODAL */}
+      {/* ORDER METHOD MODAL */}
+      {showOrderMethodModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setShowOrderMethodModal(false)}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 50 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl shadow-2xl p-8 sm:p-10 max-w-sm w-full border-2 border-pink-200 mx-3 sm:mx-0"
+          >
+            <motion.button
+              onClick={() => setShowOrderMethodModal(false)}
+              whileHover={{ scale: 1.15, rotate: 90 }}
+              whileTap={{ scale: 0.9 }}
+              className="absolute top-6 right-6 w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-2xl font-bold rounded-full hover:shadow-2xl transition-all flex items-center justify-center border-2 border-white shadow-lg"
+            >
+              ✕
+            </motion.button>
+
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">Place Your Order</h2>
+              <p className="text-gray-600 text-sm">Choose your preferred contact method</p>
+            </div>
+
+            <div className="space-y-4">
+              <motion.button
+                onClick={() => {
+                  window.open(
+                    `https://www.instagram.com/ecard_invitation_studio`,
+                    "_blank"
+                  );
+                  setShowOrderMethodModal(false);
+                }}
+                whileHover={{ scale: 1.05, x: 10 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full p-4 bg-gradient-to-r from-pink-50 via-purple-50 to-red-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-pink-300 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 via-purple-500 to-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#instagramGrad)" />
+                      <defs>
+                        <linearGradient id="instagramGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#feda75" />
+                          <stop offset="5%" stopColor="#fa7e1e" />
+                          <stop offset="45%" stopColor="#d92e7f" />
+                          <stop offset="60%" stopColor="#9b36b7" />
+                          <stop offset="90%" stopColor="#515bd4" />
+                        </linearGradient>
+                      </defs>
+                      <circle cx="12" cy="12" r="3.5" fill="white" />
+                      <circle cx="17.5" cy="6.5" r="1.5" fill="white" />
+                    </svg>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-bold text-gray-800 text-lg">Instagram DM</p>
+                    <p className="text-xs text-gray-600">Quick & Easy</p>
+                  </div>
+                </div>
+              </motion.button>
+
+              <motion.button
+                onClick={() => {
+                  window.open(
+                    `mailto:ecard.invitation.studio@gmail.com?subject=Order Request - ${selectedTemplate}&body=${encodeURIComponent(whatsappMessage)}`,
+                    "_blank"
+                  );
+                  setShowOrderMethodModal(false);
+                }}
+                whileHover={{ scale: 1.05, x: 10 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full p-4 bg-gradient-to-r from-blue-50 to-red-50 rounded-2xl hover:shadow-lg transition-all cursor-pointer border-2 border-red-300 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl">✉️</span>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-bold text-gray-800 text-lg">Gmail</p>
+                    <p className="text-xs text-gray-600">Detailed Communication</p>
+                  </div>
+                </div>
+              </motion.button>
+            </div>
+
+            <div className="mt-6 p-3 bg-gradient-to-r from-pink-100 to-purple-100 rounded-2xl border-2 border-pink-200">
+              <p className="text-xs text-gray-700 text-center font-semibold">✨ Our team responds within minutes!</p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* 📞 CONTACT MODAL */}
       {showContactModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -1268,7 +1367,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-6">
               <span className="text-2xl">📋</span>
-              <h3 className="text-2xl font-bold text-gray-800">Your Details</h3>
+              <h3 className="text-2xl font-bold text-gray-800">Billing Details</h3>
             </div>
             
             <motion.div
@@ -1525,36 +1624,36 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
               <motion.button
                 onClick={() => {
                   if (validateForm()) {
-                    // If validation passes, open WhatsApp
-                    window.open(
-                      `https://wa.me/917972770968?text=${encodeURIComponent(whatsappMessage)}`,
-                      "_blank"
-                    );
+                    setShowOrderMethodModal(true);
                   }
                 }}
-                whileHover={isFormValid ? { scale: 1.08, boxShadow: "0 20px 40px rgba(34, 197, 94, 0.3)" } : {}}
+                whileHover={isFormValid ? { scale: 1.08, boxShadow: "0 20px 40px rgba(236, 72, 153, 0.3)" } : {}}
                 whileTap={isFormValid ? { scale: 0.95 } : {}}
                 animate={isFormValid ? {
                   boxShadow: [
-                    "0 0 20px rgba(34, 197, 94, 0.2)",
-                    "0 0 30px rgba(34, 197, 94, 0.4)",
-                    "0 0 20px rgba(34, 197, 94, 0.2)",
+                    "0 0 20px rgba(236, 72, 153, 0.2)",
+                    "0 0 30px rgba(236, 72, 153, 0.4)",
+                    "0 0 20px rgba(236, 72, 153, 0.2)",
                   ],
                 } : {}}
                 transition={isFormValid ? { boxShadow: { repeat: Infinity, duration: 3 } } : {}}
                 disabled={!isFormValid}
                 className={`w-full py-4 px-6 rounded-xl font-bold shadow-xl transition-all duration-300 text-lg flex items-center justify-center gap-2 ${
                   isFormValid
-                    ? "bg-gradient-to-r from-green-500 via-green-600 to-green-600 text-white hover:shadow-2xl cursor-pointer"
+                    ? "bg-gradient-to-r from-pink-500 via-purple-500 to-pink-600 text-white hover:shadow-2xl cursor-pointer"
                     : "bg-gray-400 text-gray-600 cursor-not-allowed opacity-70"
                 }`}
               >
-                <Phone className="w-6 h-6" />
-                {isFormValid ? "Complete Order on WhatsApp" : "Order Now"}
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="20" height="20" rx="5" fill="currentColor" opacity="0.2" />
+                  <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+                  <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" />
+                </svg>
+                {isFormValid ? "Place Order on Instagram / Gmail" : "Order Now"}
               </motion.button>
             </motion.div>
 
-            <p className="text-xs text-gray-500 text-center">💬 Our team will assist you with any customizations</p>
+            <p className="text-xs text-gray-500 text-center">� Send order via Instagram DM or Gmail - our team will assist with customizations</p>
           </div>
         </motion.div>
       </section>
