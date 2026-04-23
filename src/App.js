@@ -818,8 +818,8 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 className="w-9 sm:w-12 h-9 sm:h-12 object-contain logo-rounded"
               />
             </div>
-            <div className="hidden sm:block">
-              <p className="font-black text-transparent bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-sm md:text-lg logo-txt leading-none">
+            <div className="block">
+              <p className="font-black text-transparent bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-xs sm:text-sm md:text-lg logo-txt leading-none">
                 Ecard Invitations Studio <span className="text-yellow-400">✨</span>
               </p>
             </div>
@@ -849,15 +849,25 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
             </motion.button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            onClick={handleOpenContactModal}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="md:hidden bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 sm:px-4 py-2 rounded-full font-semibold text-xs sm:text-sm shadow-md"
-          >
-            Contact
-          </motion.button>
+          {/* Mobile Menu - Navigation Links and Contact */}
+          <div className="md:hidden flex gap-2 items-center flex-shrink-0">
+            <div className="flex gap-1 sm:gap-2 items-center">
+              <a href="#templates" className="text-gray-700 hover:text-pink-500 font-semibold transition-colors text-xs sm:text-sm px-2 py-1">
+                Templates
+              </a>
+              <a href="#order" className="text-gray-700 hover:text-pink-500 font-semibold transition-colors text-xs sm:text-sm px-2 py-1">
+                Order
+              </a>
+            </div>
+            <motion.button
+              onClick={handleOpenContactModal}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 sm:px-4 py-2 rounded-full font-semibold text-xs sm:text-sm shadow-md whitespace-nowrap"
+            >
+              Contact
+            </motion.button>
+          </div>
         </div>
       </nav>
 
@@ -1079,7 +1089,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                       <video
                         src={templates[key].video}
                         poster={['Wedding', 'BabyShower', 'Birthday'].includes(key) ? undefined : templates[key].image}
-                        className="h-96 w-full object-cover rounded-xl mb-4 select-none"
+                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none"
                         preload="metadata"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
@@ -1092,12 +1102,12 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                       </div>
                     </div>
                   ) : templates[key].video ? (
-                    <div className="relative h-96 rounded-xl mb-4 overflow-hidden select-none">
+                    <div className="relative h-48 sm:h-80 lg:h-96 rounded-xl mb-4 overflow-hidden select-none">
                       <img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className="h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
+                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onCopy={(e) => e.preventDefault()}
@@ -1116,7 +1126,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className={`h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
+                        className={`h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                         onContextMenu={(e) => e.preventDefault()}
