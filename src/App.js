@@ -307,7 +307,52 @@ export default function App() {
     return true;
   };
 
-  // Form validation function - validates and sets errors
+  // Real-time email validation
+  const validateEmail = (emailValue) => {
+    if (!emailValue) return "Email address is required";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+      return "Invalid email format (e.g., user@example.com)";
+    }
+    return "";
+  };
+
+  // Real-time phone validation
+  const validatePhone = (phoneValue) => {
+    if (!phoneValue) return "Phone number is required";
+    const digitsOnly = phoneValue.replace(/\D/g, "");
+    if (digitsOnly.length === 0) return "Phone number is required";
+    if (digitsOnly.length < 10) return `Phone number must be 10 digits (${digitsOnly.length}/10)`;
+    if (digitsOnly.length > 10) return "Phone number must be exactly 10 digits";
+    return "";
+  };
+
+  // Handle email change with real-time validation
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    if (validationErrors.email) {
+      const error = validateEmail(newEmail);
+      setValidationErrors(prev => ({
+        ...prev,
+        email: error
+      }));
+    }
+  };
+
+  // Handle phone change with real-time validation
+  const handlePhoneChange = (e) => {
+    const newPhone = e.target.value;
+    setPhone(newPhone);
+    if (validationErrors.phone) {
+      const error = validatePhone(newPhone);
+      setValidationErrors(prev => ({
+        ...prev,
+        phone: error
+      }));
+    }
+  };
+
+  // Real-time validation function - validates and sets errors
   const validateForm = () => {
     const errors = {};
     
@@ -319,16 +364,19 @@ export default function App() {
     if (!name || name.trim() === "") {
       errors.name = "Full name is required";
     }
-    if (!email || email.trim() === "") {
-      errors.email = "Email address is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = "Please enter a valid email (e.g., user@example.com)";
+    
+    // Email validation
+    const emailError = validateEmail(email);
+    if (emailError) {
+      errors.email = emailError;
     }
-    if (!phone || phone.trim() === "") {
-      errors.phone = "Phone number is required";
-    } else if (!/^\d{10}$/.test(phone.replace(/\D/g, ""))) {
-      errors.phone = "Phone number must be exactly 10 digits";
+    
+    // Phone validation
+    const phoneError = validatePhone(phone);
+    if (phoneError) {
+      errors.phone = phoneError;
     }
+    
     if (!event || event.trim() === "") {
       errors.event = "Event type is required";
     }
@@ -1257,7 +1305,16 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 required
                 placeholder="your.email@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
+                onBlur={() => {
+                  const error = validateEmail(email);
+                  if (error) {
+                    setValidationErrors(prev => ({
+                      ...prev,
+                      email: error
+                    }));
+                  }
+                }}
                 className={`w-full p-4 border-2 rounded-xl focus:ring-2 focus:outline-none transition-all duration-300 font-medium ${
                   validationErrors.email
                     ? "border-red-500 focus:border-red-500 focus:ring-red-200"
@@ -1265,7 +1322,10 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 }`}
               />
               {validationErrors.email && (
-                <p className="text-red-600 text-sm mt-2 font-bold bg-red-50 p-2 rounded-lg border-l-4 border-red-500">⚠️ {validationErrors.email}</p>
+                <p className="text-red-600 text-sm mt-2 font-bold bg-red-50 p-3 rounded-lg border-l-4 border-red-500 flex items-start gap-2">
+                  <span className="text-lg mt-0.5">❌</span>
+                  <span>{validationErrors.email}</span>
+                </p>
               )}
             </motion.div>
 
@@ -1280,7 +1340,16 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 required
                 placeholder="10-digit mobile number"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handlePhoneChange}
+                onBlur={() => {
+                  const error = validatePhone(phone);
+                  if (error) {
+                    setValidationErrors(prev => ({
+                      ...prev,
+                      phone: error
+                    }));
+                  }
+                }}
                 className={`w-full p-4 border-2 rounded-xl focus:ring-2 focus:outline-none transition-all duration-300 font-medium ${
                   validationErrors.phone
                     ? "border-red-500 focus:border-red-500 focus:ring-red-200"
@@ -1288,7 +1357,10 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 }`}
               />
               {validationErrors.phone && (
-                <p className="text-red-600 text-sm mt-2 font-bold bg-red-50 p-2 rounded-lg border-l-4 border-red-500">⚠️ {validationErrors.phone}</p>
+                <p className="text-red-600 text-sm mt-2 font-bold bg-red-50 p-3 rounded-lg border-l-4 border-red-500 flex items-start gap-2">
+                  <span className="text-lg mt-0.5">❌</span>
+                  <span>{validationErrors.phone}</span>
+                </p>
               )}
             </motion.div>
 
