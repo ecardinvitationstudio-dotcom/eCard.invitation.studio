@@ -77,7 +77,7 @@ const templates = {
     labels: ["engagement", "photo"]
   },
   Reception: {
-    title: "Reception Invitation",
+    title: "Reception Video Invitation",
     price: "₹799",
     video: "/reception.mp4",
     isVideo: true,
