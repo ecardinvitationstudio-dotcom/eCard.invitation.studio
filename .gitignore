@@ -25,7 +25,7 @@ yarn-error.log*
 node_modules
 build
 .env
-*.mp4
+
 *.mov
 *.avi
 *.webm
