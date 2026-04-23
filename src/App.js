@@ -997,6 +997,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
           {/* IMAGE */}
           <motion.img
             src={headerImg}
+            alt="Header showcase image"
             className="rounded-2xl shadow-xl"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -1094,6 +1095,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                     <div className="relative h-96 rounded-xl mb-4 overflow-hidden select-none">
                       <img
                         src={templates[key].image}
+                        alt={templates[key].title}
                         fetchPriority="low"
                         className="h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
                         onContextMenu={(e) => e.preventDefault()}
@@ -1112,6 +1114,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                     <motion.div className="relative select-none">
                       <motion.img
                         src={templates[key].image}
+                        alt={templates[key].title}
                         fetchPriority="low"
                         className={`h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
                         whileHover={{ scale: 1.1 }}
@@ -1495,7 +1498,7 @@ Venue: ${venue}${additionalRequest ? `\nAdditional Request: ${additionalRequest}
                 <li><a href="#templates" className="hover:text-pink-400 transition">Templates</a></li>
                 <li><a href="#order" className="hover:text-pink-400 transition">Place Order</a></li>
                 <li><a href="#testimonials" className="hover:text-pink-400 transition">Testimonials</a></li>
-                <li><a onClick={() => setShowPrivacyPolicy(true)} className="hover:text-pink-400 transition cursor-pointer">Privacy Policy</a></li>
+                <li><button onClick={() => setShowPrivacyPolicy(true)} className="hover:text-pink-400 transition cursor-pointer bg-transparent border-none text-gray-300 text-sm">Privacy Policy</button></li>
               </ul>
             </motion.div>
 
