@@ -136,7 +136,7 @@ export default function App() {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [selectedLabels, setSelectedLabels] = useState([]); // multi-label filter
-  const [previewMode, setPreviewMode] = useState("image");
+  // const [previewMode, setPreviewMode] = useState("image"); // unused
   const [templateDetails, setTemplateDetails] = useState({
     guestName: "",
     guestTitle: "",
