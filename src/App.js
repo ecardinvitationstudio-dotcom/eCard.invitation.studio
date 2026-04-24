@@ -413,6 +413,11 @@ export default function App() {
 👤 Name: ${name}
 📧 Email: ${email}
 📱 Phone: ${phone}
+🎉 Event Type: ${event}
+📅 Event Date: ${date}
+📍 Venue: ${venue}
+
+
 
 *TEMPLATE VIEW DETAILS:*
 ${templateDetails.detailType === "couple" ? 
@@ -1422,7 +1427,7 @@ Please confirm the order and provide further details.`;
           ))}
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto px-3 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto px-3 sm:px-6">
           {Object.keys(templates)
             .filter((key) => {
               if (selectedLabels.length === 0) return true;
@@ -1437,7 +1442,7 @@ Please confirm the order and provide further details.`;
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 whileHover={{ scale: 1.05, y: -10 }}
-                className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
+                className="bg-white p-3 sm:p-4 lg:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
               >
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 to-purple-400"></div>
                 <div className="relative">
@@ -1447,7 +1452,7 @@ Please confirm the order and provide further details.`;
                         key={`video-${key}`}
                         src={templates[key].video}
                         poster={templates[key].image}
-                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
+                        className="h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
                         preload="auto"
                         autoPlay
                         muted
@@ -1460,23 +1465,23 @@ Please confirm the order and provide further details.`;
                         onCanPlay={(e) => e.target.play()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                     </div>
                   ) : templates[key].video ? (
-                    <div className="relative h-48 sm:h-80 lg:h-96 rounded-xl mb-4 overflow-hidden select-none">
+                    <div className="relative h-32 sm:h-48 md:h-64 lg:h-80 rounded-xl mb-4 overflow-hidden select-none">
                       <img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className="h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
+                        className="h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onCopy={(e) => e.preventDefault()}
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                       <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <span>🎥</span> Has Video
@@ -1488,7 +1493,7 @@ Please confirm the order and provide further details.`;
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className={`h-48 sm:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
+                        className={`h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                         onContextMenu={(e) => e.preventDefault()}
@@ -1497,7 +1502,7 @@ Please confirm the order and provide further details.`;
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                     </motion.div>
                   )}
@@ -1513,14 +1518,14 @@ Please confirm the order and provide further details.`;
                     </span>
                   ))}
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-2">{templates[key].title}</h3>
-                <p className="text-2xl font-semibold text-pink-500 mb-4">{templates[key].price}</p>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">{templates[key].title}</h3>
+                <p className="text-xl sm:text-2xl font-semibold text-pink-500 mb-4">{templates[key].price}</p>
 
                 <motion.button
                   onClick={() => handleSelectTemplate(key)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
                 >
                   View Template
                 </motion.button>
