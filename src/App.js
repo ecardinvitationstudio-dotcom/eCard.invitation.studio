@@ -31,6 +31,14 @@ const templates = {
     image: weddingImg,
     labels: ["wedding", "photo"]
   },
+  Wedding1: {
+    title: "Full Events Wedding Video Invitation",
+    price: "₹1499",
+    image: weddingImg,
+    video: "/wedding-1.mp4",
+    isVideo: true,
+    labels: ["wedding", "photo", "video"]
+  },
   Birthday: {
     title: "Birthday Invitation",
     price: "₹1199",
@@ -52,27 +60,35 @@ const templates = {
     image: babyImg,
     labels: ["baby", "photo"]
   },
+  BabyNaming: {
+    title: "Baby Naming Ceremony Video Invitation",
+    price: "₹799",
+    image: babyImg,
+    video: "/babynaming.mp4",
+    isVideo: true,
+    labels: ["baby", "naming", "video"]
+  },
   Mehendi: {
     title: "Mehendi Invitation",
-    price: "₹499",
+    price: "₹299",
     image: mehendiImg,
     labels: ["mehendi", "photo"]
   },
   Haldi: {
     title: "Haldi Invitation",
-    price: "₹499",
+    price: "₹299",
     image: haldiImg,
     labels: ["haldi", "photo"]
   },
   Sangeet: {
     title: "Sangeet Invitation",
-    price: "₹499",
+    price: "₹299",
     image: sangeetImg,
     labels: ["sangeet", "photo"]
   },
   Engagement: {
     title: "Engagement Invitation",
-    price: "₹499",
+    price: "₹299",
     image: engagementImg,
     labels: ["engagement", "photo"]
   },
@@ -253,12 +269,10 @@ export default function App() {
   const handleSelectTemplate = (templateName) => {
     setSelectedTemplate(templateName);
     setShowTemplateDetailsModal(true);
-    document.body.style.overflow = "hidden";
   };
 
   const handleCloseTemplateModal = () => {
     setShowTemplateDetailsModal(false);
-    document.body.style.overflow = "auto";
   };
 
   const handleOpenContactModal = () => {
@@ -791,23 +805,27 @@ Please confirm the order and provide further details.`;
           className="fixed inset-0 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 z-40 overflow-y-auto"
         >
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
             onClick={(e) => e.stopPropagation()}
-            className="min-h-screen w-full py-6 sm:py-10 px-3 sm:px-4"
+            className="min-h-screen w-full py-2 sm:py-6 px-2 sm:px-4 flex items-center justify-center"
           >
-            {/* Header */}
-            <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex justify-between items-start px-2 sm:px-4">
-              <div>
+            {/* Mobile-first responsive container */}
+            <div className="w-full max-w-5xl mx-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-pink-100 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
+
+            {/* Header - Mobile optimized */}
+            <div className="sticky top-0 bg-white border-b border-pink-100 p-3 sm:p-6 rounded-t-2xl sm:rounded-t-3xl flex justify-between items-center z-10">
+              <div className="flex-1 min-w-0">
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="text-sm text-gray-600 mb-2 uppercase tracking-widest font-semibold"
+                  className="text-xs sm:text-sm text-gray-600 uppercase tracking-widest font-semibold mb-1"
                 >
                   Customize Your Invitation
                 </motion.p>
-                <h1 className="text-5xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent truncate">
                   {selectedTemplate} Invitation
                 </h1>
               </div>
@@ -817,19 +835,18 @@ Please confirm the order and provide further details.`;
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleCloseTemplateModal}
-                className="text-gray-600 hover:text-gray-900 text-3xl font-bold p-3 rounded-full hover:bg-white/50 transition-all"
+                className="ml-3 text-gray-600 hover:text-gray-900 text-2xl sm:text-3xl font-bold p-2 rounded-full hover:bg-gray-100 transition-all flex-shrink-0"
               >
                 ✕
               </motion.button>
             </div>
 
-            {/* Content */}
-            <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-pink-100">
+            {/* Content - Mobile optimized */}
+            <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
 
-            <div className="space-y-6">
-              {/* Template Preview */}
-              <div className="bg-gradient-to-b from-pink-50 to-purple-50 p-6 rounded-2xl">
-                <h3 className="font-bold text-lg mb-4">Template Preview</h3>
+              {/* Template Preview - Mobile optimized */}
+              <div className="bg-gradient-to-b from-pink-50 to-purple-50 p-3 sm:p-6 rounded-xl">
+                <h3 className="font-bold text-base sm:text-lg mb-3 sm:mb-4">Template Preview</h3>
                 {templates[selectedTemplate]?.isVideo ? (
                   <div className="relative select-none">
                     <video
@@ -837,50 +854,54 @@ Please confirm the order and provide further details.`;
                       poster={templates[selectedTemplate]?.image}
                       controls
                       controlsList="nodownload nofullscreen"
-                      className="w-full h-auto object-contain rounded-xl select-none"
+                      className="w-full h-auto max-h-[40vh] sm:max-h-[50vh] md:max-h-[60vh] object-contain rounded-xl select-none"
                       preload="auto"
+                      muted
+                      defaultMuted
                       onContextMenu={(e) => e.preventDefault()}
                       onDragStart={(e) => e.preventDefault()}
                     />
                     <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                      <div className="text-black/40 text-4xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                      <div className="text-black/40 text-xl sm:text-2xl md:text-4xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                     </div>
                   </div>
                 ) : templates[selectedTemplate]?.video ? (
-                  <div className="grid md:grid-cols-2 gap-4 select-none">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 select-none">
                     <div>
-                      <p className="text-sm font-semibold text-gray-700 mb-2">📷 Image Preview</p>
+                      <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">📷 Image Preview</p>
                       <div className="relative">
                       <img
                         src={templates[selectedTemplate]?.image}
                         alt={selectedTemplate}
                         fetchPriority="high"
-                        className="w-full h-auto object-contain rounded-xl border-2 border-pink-200 select-none"
+                        className="w-full h-auto max-h-[30vh] sm:max-h-[40vh] object-contain rounded-xl border-2 border-pink-200 select-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onCopy={(e) => e.preventDefault()}
                         onMouseDown={(e) => e.preventDefault()}
                         />
                         <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                          <div className="text-black/40 text-3xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                          <div className="text-black/40 text-lg sm:text-2xl md:text-3xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                         </div>
                       </div>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-700 mb-2">🎥 Video Preview</p>
+                      <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-2">🎥 Video Preview</p>
                       <div className="relative">
                         <video
                           src={templates[selectedTemplate]?.video}
                           poster={['Wedding', 'BabyShower'].includes(selectedTemplate) ? undefined : templates[selectedTemplate]?.image}
                           controls
                           controlsList="nodownload nofullscreen"
-                          className="w-full h-auto object-contain rounded-xl border-2 border-blue-200 select-none"
+                          className="w-full h-auto max-h-[30vh] sm:max-h-[40vh] object-contain rounded-xl border-2 border-blue-200 select-none"
                           preload="auto"
+                          muted
+                          defaultMuted
                           onContextMenu={(e) => e.preventDefault()}
                           onDragStart={(e) => e.preventDefault()}
                         />
                         <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                          <div className="text-black/40 text-3xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                          <div className="text-black/40 text-lg sm:text-2xl md:text-3xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                         </div>
                       </div>
                     </div>
@@ -891,25 +912,25 @@ Please confirm the order and provide further details.`;
                       src={templates[selectedTemplate]?.image}
                       alt={selectedTemplate}
                       fetchPriority="high"
-                      className={`w-full h-auto object-contain rounded-xl select-none ${selectedTemplate === "Housewarming" ? "housewarming-image" : ""}`}
+                      className={`w-full h-auto max-h-[40vh] sm:max-h-[50vh] md:max-h-[60vh] object-contain rounded-xl select-none ${selectedTemplate === "Housewarming" ? "housewarming-image" : ""}`}
                       whileHover={{ scale: 1.05 }}
                       onContextMenu={(e) => e.preventDefault()}
                       onDragStart={(e) => e.preventDefault()}
                     />
                     <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                      <div className="text-black/40 text-4xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                      <div className="text-black/40 text-xl sm:text-2xl md:text-4xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Form Fields */}
-              <div className="space-y-4">
-                <h3 className="font-bold text-lg mb-4">Your Details</h3>
+              {/* Form Fields - Mobile optimized */}
+              <div className="space-y-4 sm:space-y-6">
+                <h3 className="font-bold text-base sm:text-lg mb-4">Your Details</h3>
                 
-                {/* Detail Type Toggle */}
-                <div className="flex gap-4 mb-6">
-                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all" style={{borderColor: templateDetails.detailType === "single" ? "#ec4899" : "#fce7f3"}}>
+                {/* Detail Type Toggle - Mobile optimized */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all text-sm sm:text-base" style={{borderColor: templateDetails.detailType === "single" ? "#ec4899" : "#fce7f3"}}>
                     <input
                       type="radio"
                       name="detailType"
@@ -920,7 +941,7 @@ Please confirm the order and provide further details.`;
                     />
                     <span className="font-semibold">👤 Single Person</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all" style={{borderColor: templateDetails.detailType === "couple" ? "#ec4899" : "#fce7f3"}}>
+                  <label className="flex items-center gap-2 cursor-pointer p-3 border-2 border-pink-200 rounded-xl hover:bg-pink-50 transition-all text-sm sm:text-base" style={{borderColor: templateDetails.detailType === "couple" ? "#ec4899" : "#fce7f3"}}>
                     <input
                       type="radio"
                       name="detailType"
@@ -933,26 +954,26 @@ Please confirm the order and provide further details.`;
                   </label>
                 </div>
 
-                {/* Single Person Fields */}
+                {/* Single Person Fields - Mobile optimized */}
                 {templateDetails.detailType === "single" && (
-                  <div className="space-y-4 p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+                  <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
                     <input
                       type="text"
                       placeholder="Person's Name / Main Guest Name"
                       value={templateDetails.guestName}
                       onChange={(e) => handleTemplateDetailsChange("guestName", e.target.value)}
-                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none text-sm sm:text-base"
                     />
                     <input
                       type="text"
                       placeholder="Title/Role (e.g., Birthday Girl, Guest of Honor)"
                       value={templateDetails.guestTitle}
                       onChange={(e) => handleTemplateDetailsChange("guestTitle", e.target.value)}
-                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                      className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none text-sm sm:text-base"
                     />
                     <div>
-                      <label className="block font-semibold mb-2">Upload Photo (Optional)</label>
-                      <label className="w-full p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
+                      <label className="block font-semibold mb-2 text-sm sm:text-base">Upload Photo (Optional)</label>
+                      <label className="w-full p-3 sm:p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
                         <input
                           type="file"
                           accept="image/*"
@@ -972,37 +993,37 @@ Please confirm the order and provide further details.`;
                           className="hidden"
                         />
                         <div className="text-center">
-                          <span className="text-2xl">📷</span>
-                          <p className="text-blue-600 font-semibold">Click to upload image</p>
-                          <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                          <span className="text-xl sm:text-2xl">📷</span>
+                          <p className="text-blue-600 font-semibold text-sm sm:text-base">Click to upload image</p>
+                          <p className="text-xs sm:text-sm text-gray-500">PNG, JPG up to 5MB</p>
                         </div>
                       </label>
                       {templateDetails.guestImage && (
-                        <div className="mt-3">
-                          <img src={templateDetails.guestImage} alt="Uploaded" className="h-32 w-32 object-cover rounded-lg" />
+                        <div className="mt-3 flex justify-center">
+                          <img src={templateDetails.guestImage} alt="Uploaded" className="h-24 w-24 sm:h-32 sm:w-32 object-cover rounded-lg" />
                         </div>
                       )}
                     </div>
                   </div>
                 )}
 
-                {/* Bride & Groom Fields */}
+                {/* Bride & Groom Fields - Mobile optimized */}
                 {templateDetails.detailType === "couple" && (
-                  <div className="space-y-6">
-                    {/* Bride Section */}
-                    <div className="p-4 bg-red-50 rounded-xl border-2 border-red-200">
-                      <h4 className="font-bold text-lg text-red-600 mb-4">👰 Bride Details</h4>
-                      <div className="space-y-4">
+                  <div className="space-y-4 sm:space-y-6">
+                    {/* Bride Section - Mobile optimized */}
+                    <div className="p-3 sm:p-4 bg-red-50 rounded-xl border-2 border-red-200">
+                      <h4 className="font-bold text-base sm:text-lg text-red-600 mb-3 sm:mb-4">👰 Bride Details</h4>
+                      <div className="space-y-3 sm:space-y-4">
                         <input
                           type="text"
                           placeholder="Bride's Name"
                           value={templateDetails.brideName}
                           onChange={(e) => handleTemplateDetailsChange("brideName", e.target.value)}
-                          className="w-full p-3 border-2 border-red-200 rounded-xl focus:border-red-400 focus:outline-none"
+                          className="w-full p-3 border-2 border-red-200 rounded-xl focus:border-red-400 focus:outline-none text-sm sm:text-base"
                         />
                         <div>
-                          <label className="block font-semibold mb-2">Bride's Photo (Optional)</label>
-                          <label className="w-full p-4 border-2 border-dashed border-red-300 rounded-xl cursor-pointer hover:bg-red-100 transition-colors">
+                          <label className="block font-semibold mb-2 text-sm sm:text-base">Bride's Photo (Optional)</label>
+                          <label className="w-full p-3 sm:p-4 border-2 border-dashed border-red-300 rounded-xl cursor-pointer hover:bg-red-100 transition-colors">
                             <input
                               type="file"
                               accept="image/*"
@@ -1022,34 +1043,34 @@ Please confirm the order and provide further details.`;
                               className="hidden"
                             />
                             <div className="text-center">
-                              <span className="text-2xl">📷</span>
-                              <p className="text-red-600 font-semibold">Click to upload bride's image</p>
-                              <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                              <span className="text-xl sm:text-2xl">📷</span>
+                              <p className="text-red-600 font-semibold text-sm sm:text-base">Click to upload bride's image</p>
+                              <p className="text-xs sm:text-sm text-gray-500">PNG, JPG up to 5MB</p>
                             </div>
                           </label>
                           {templateDetails.brideImage && (
-                            <div className="mt-3">
-                              <img src={templateDetails.brideImage} alt="Bride" className="h-32 w-32 object-cover rounded-lg" />
+                            <div className="mt-3 flex justify-center">
+                              <img src={templateDetails.brideImage} alt="Bride" className="h-24 w-24 sm:h-32 sm:w-32 object-cover rounded-lg" />
                             </div>
                           )}
                         </div>
                       </div>
                     </div>
 
-                    {/* Groom Section */}
-                    <div className="p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
-                      <h4 className="font-bold text-lg text-blue-600 mb-4">🤵 Groom Details</h4>
-                      <div className="space-y-4">
+                    {/* Groom Section - Mobile optimized */}
+                    <div className="p-3 sm:p-4 bg-blue-50 rounded-xl border-2 border-blue-200">
+                      <h4 className="font-bold text-base sm:text-lg text-blue-600 mb-3 sm:mb-4">🤵 Groom Details</h4>
+                      <div className="space-y-3 sm:space-y-4">
                         <input
                           type="text"
                           placeholder="Groom's Name"
                           value={templateDetails.groomName}
                           onChange={(e) => handleTemplateDetailsChange("groomName", e.target.value)}
-                          className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none"
+                          className="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-400 focus:outline-none text-sm sm:text-base"
                         />
                         <div>
-                          <label className="block font-semibold mb-2">Groom's Photo (Optional)</label>
-                          <label className="w-full p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
+                          <label className="block font-semibold mb-2 text-sm sm:text-base">Groom's Photo (Optional)</label>
+                          <label className="w-full p-3 sm:p-4 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer hover:bg-blue-100 transition-colors">
                             <input
                               type="file"
                               accept="image/*"
@@ -1069,14 +1090,14 @@ Please confirm the order and provide further details.`;
                               className="hidden"
                             />
                             <div className="text-center">
-                              <span className="text-2xl">📷</span>
-                              <p className="text-blue-600 font-semibold">Click to upload groom's image</p>
-                              <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
+                              <span className="text-xl sm:text-2xl">📷</span>
+                              <p className="text-blue-600 font-semibold text-sm sm:text-base">Click to upload groom's image</p>
+                              <p className="text-xs sm:text-sm text-gray-500">PNG, JPG up to 5MB</p>
                             </div>
                           </label>
                           {templateDetails.groomImage && (
-                            <div className="mt-3">
-                              <img src={templateDetails.groomImage} alt="Groom" className="h-32 w-32 object-cover rounded-lg" />
+                            <div className="mt-3 flex justify-center">
+                              <img src={templateDetails.groomImage} alt="Groom" className="h-24 w-24 sm:h-32 sm:w-32 object-cover rounded-lg" />
                             </div>
                           )}
                         </div>
@@ -1122,17 +1143,17 @@ Please confirm the order and provide further details.`;
                   placeholder="Additional notes or special requests (Optional)"
                   value={templateDetails.additionalNotes}
                   onChange={(e) => handleTemplateDetailsChange("additionalNotes", e.target.value)}
-                  className="w-full p-3 border-2 border-pink-200 rounded-xl focus:border-pink-400 focus:outline-none resize-none h-20"
+                  className="w-full p-3 border-2 border-pink-200 rounded-xl focus:border-pink-400 focus:outline-none resize-none h-16 sm:h-20 text-sm sm:text-base"
                 />
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-4 pt-6 border-t border-pink-100">
+              {/* Action Buttons - Mobile optimized */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-pink-100">
                 <motion.button
                   onClick={handleCloseTemplateModal}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 px-8 py-4 border-2 border-pink-500 text-pink-500 rounded-xl font-bold text-lg hover:bg-pink-50 transition-colors"
+                  className="flex-1 px-6 sm:px-8 py-3 sm:py-4 border-2 border-pink-500 text-pink-500 rounded-xl font-bold text-base sm:text-lg hover:bg-pink-50 transition-colors"
                 >
                   Back to Templates
                 </motion.button>
@@ -1140,7 +1161,7 @@ Please confirm the order and provide further details.`;
                   onClick={handleProceedToOrder}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
+                  className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
                 >
                   Proceed to Order →
                 </motion.button>
@@ -1427,7 +1448,7 @@ Please confirm the order and provide further details.`;
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 max-w-6xl mx-auto px-3 sm:px-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto px-3 sm:px-6">
           {Object.keys(templates)
             .filter((key) => {
               if (selectedLabels.length === 0) return true;
@@ -1442,17 +1463,17 @@ Please confirm the order and provide further details.`;
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 whileHover={{ scale: 1.05, y: -10 }}
-                className="bg-white p-3 sm:p-4 lg:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
+                className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-pink-100 overflow-hidden relative"
               >
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 to-purple-400"></div>
                 <div className="relative">
                   {templates[key].isVideo ? (
-                    <div className="relative group select-none overflow-hidden rounded-xl mb-4">
+                    <div className="relative group select-none overflow-hidden rounded-xl mb-4 cursor-pointer" onClick={() => handleSelectTemplate(key)}>
                       <video
                         key={`video-${key}`}
                         src={templates[key].video}
-                        poster={templates[key].image}
-                        className="h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
+                        poster={['Wedding', 'BabyShower', 'Wedding1'].includes(key) ? undefined : templates[key].image}
+                        className="h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
                         preload="auto"
                         autoPlay
                         muted
@@ -1465,35 +1486,35 @@ Please confirm the order and provide further details.`;
                         onCanPlay={(e) => e.target.play()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                     </div>
                   ) : templates[key].video ? (
-                    <div className="relative h-32 sm:h-48 md:h-64 lg:h-80 rounded-xl mb-4 overflow-hidden select-none">
+                    <div className="relative h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 rounded-xl mb-4 overflow-hidden select-none">
                       <img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className="h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
+                        className="h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onCopy={(e) => e.preventDefault()}
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                       <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <span>🎥</span> Has Video
                       </div>
                     </div>
                   ) : (
-                    <motion.div className="relative select-none">
+                    <motion.div className="relative select-none cursor-pointer" onClick={() => handleSelectTemplate(key)}>
                       <motion.img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className={`h-32 sm:h-48 md:h-64 lg:h-80 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
+                        className={`h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                         onContextMenu={(e) => e.preventDefault()}
@@ -1502,7 +1523,7 @@ Please confirm the order and provide further details.`;
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-lg sm:text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
                       </div>
                     </motion.div>
                   )}
@@ -1518,20 +1539,38 @@ Please confirm the order and provide further details.`;
                     </span>
                   ))}
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">{templates[key].title}</h3>
-                <p className="text-xl sm:text-2xl font-semibold text-pink-500 mb-4">{templates[key].price}</p>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{templates[key].title}</h3>
+                <p className="text-2xl font-semibold text-pink-500 mb-4">{templates[key].price}</p>
 
                 <motion.button
                   onClick={() => handleSelectTemplate(key)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
+                  className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   View Template
                 </motion.button>
               </motion.div>
             ))}
         </div>
+
+        {/* Explore More on Instagram */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 sm:mt-16 text-center"
+        >
+          <p className="text-gray-700 text-lg mb-4">Want to see more templates and inspiration?</p>
+          <a
+            href="https://www.instagram.com/ecard_invitation_studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white py-3 px-8 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            📸 Click Here to Explore More Templates!!
+          </a>
+        </motion.div>
       </section>
 
       {/* 📝 ORDER FORM */}
@@ -1990,6 +2029,20 @@ Please confirm the order and provide further details.`;
           </div>
         </div>
       </footer>
+
+      {/* 📱 FLOATING WHATSAPP BUTTON */}
+      <motion.a
+        href="https://wa.me/917972770968?text=Hi!%20I'm%20interested%20in%20placing%20an%20order%20for%20digital%20invitations.%20Please%20help%20me%20with%20more%20details."
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.15, rotate: 10 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-6 right-6 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-green-400 to-green-600 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center z-40 cursor-pointer border-2 border-white"
+      >
+        <img src={whatsappImg} alt="WhatsApp" className="w-6 h-6 sm:w-7 sm:h-7" />
+      </motion.a>
 
     </div>
   );
