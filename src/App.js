@@ -1468,12 +1468,12 @@ Please confirm the order and provide further details.`;
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 to-purple-400"></div>
                 <div className="relative">
                   {templates[key].isVideo ? (
-                    <div className="relative group select-none overflow-hidden rounded-xl mb-4 cursor-pointer" onClick={() => handleSelectTemplate(key)}>
+                    <div className="relative group select-none overflow-hidden rounded-xl mb-4 cursor-pointer aspect-video max-h-96 sm:max-h-[28rem] md:max-h-[32rem]" onClick={() => handleSelectTemplate(key)}>
                       <video
                         key={`video-${key}`}
                         src={templates[key].video}
                         poster={['Wedding', 'BabyShower', 'Wedding1'].includes(key) ? undefined : templates[key].image}
-                        className="h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-contain sm:object-cover rounded-xl select-none group-hover:scale-105 transition-transform duration-300 bg-gray-900"
                         preload="auto"
                         autoPlay
                         muted
@@ -1486,35 +1486,35 @@ Please confirm the order and provide further details.`;
                         onCanPlay={(e) => e.target.play()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-xs sm:text-lg md:text-2xl font-bold transform -rotate-45 text-center px-2">ecard_invitation_studio</div>
                       </div>
                     </div>
                   ) : templates[key].video ? (
-                    <div className="relative h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 rounded-xl mb-4 overflow-hidden select-none">
+                    <div className="relative aspect-video max-h-96 sm:max-h-[28rem] md:max-h-[32rem] rounded-xl mb-4 overflow-hidden select-none">
                       <img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className="h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
+                        className="w-full h-full object-contain sm:object-cover rounded-xl hover:scale-105 transition-transform duration-300 select-none"
                         onContextMenu={(e) => e.preventDefault()}
                         onDragStart={(e) => e.preventDefault()}
                         onCopy={(e) => e.preventDefault()}
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-xs sm:text-lg md:text-2xl font-bold transform -rotate-45 text-center px-2">ecard_invitation_studio</div>
                       </div>
                       <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <span>🎥</span> Has Video
                       </div>
                     </div>
                   ) : (
-                    <motion.div className="relative select-none cursor-pointer" onClick={() => handleSelectTemplate(key)}>
+                    <motion.div className="relative select-none cursor-pointer aspect-video max-h-96 sm:max-h-[28rem] md:max-h-[32rem]" onClick={() => handleSelectTemplate(key)}>
                       <motion.img
                         src={templates[key].image}
                         alt={templates[key].title}
                         fetchPriority="low"
-                        className={`h-36 xs:h-40 sm:h-64 md:h-80 lg:h-96 w-full object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
+                        className={`w-full h-full object-contain sm:object-cover rounded-xl mb-4 select-none ${key === "Housewarming" ? "housewarming-image" : ""}`}
                         whileHover={{ scale: 1.1 }}
                         transition={{ duration: 0.3 }}
                         onContextMenu={(e) => e.preventDefault()}
@@ -1523,7 +1523,7 @@ Please confirm the order and provide further details.`;
                         onMouseDown={(e) => e.preventDefault()}
                       />
                       <div className="absolute inset-0 flex items-center justify-center rounded-xl pointer-events-none">
-                        <div className="text-black/40 text-2xl font-bold transform -rotate-45 text-center">ecard_invitation_studio</div>
+                        <div className="text-black/40 text-xs sm:text-lg md:text-2xl font-bold transform -rotate-45 text-center px-2">ecard_invitation_studio</div>
                       </div>
                     </motion.div>
                   )}
